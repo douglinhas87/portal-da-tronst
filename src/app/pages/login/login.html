@@ -1,0 +1,87 @@
+<div class="login-wrapper">
+  <div class="login-container">
+
+    <!-- Lado esquerdo com informações da empresa -->
+    <div class="login-left">
+      <!-- Imagem de destaque -->
+      <div class="banner">
+        <img src="assets/Rectangle-2.png" alt="Banner TRON" />
+      </div>
+
+      <!-- Título principal -->
+      <h1 class="headline">
+        <span class="headline-bold">Uma nova era se inicia com</span><br />
+        <span class="headline-bold">transformação!</span>
+      </h1>
+
+      <!-- Descrição da empresa -->
+      <div class="login-description">
+        <span class="line-1">Soluções de tecnologia para o mercado</span>
+        <span class="line-2">de higiene profissional.</span>
+      </div>
+
+      <!-- Seletor de idioma -->
+      <div class="language">
+        <button class="language-btn" (click)="toggleLanguage()">
+          <img src="assets/Brazil-flag.png" alt="PT-BR" />
+          <span>Português - BR</span>
+          
+          <!-- Seta do dropdown -->
+          <svg class="arrow" width="12" height="8" viewBox="0 0 12 8">
+            <path d="M1 1l5 5 5-5" stroke="#333" stroke-width="2" fill="none"/>
+          </svg>
+        </button>
+
+        <!-- Opções de idioma (aparece ao clicar) -->
+        <ul class="language-dropdown" *ngIf="languageOpen">
+          <li (click)="selectLanguage('pt')">Português - BR</li>
+          <li (click)="selectLanguage('en')">English - US</li>
+          <li (click)="selectLanguage('es')">Español</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Cartão de login (lado direito) -->
+    <div class="login-card">
+      <!-- Fundo decorativo do cartão -->
+      <div class="login-card-bg"></div>
+
+      <!-- Conteúdo do formulário -->
+      <div class="login-card-content">
+        <h2>Login</h2>
+        <span class="dados-pessoais">Dados pessoais</span>
+
+        <!-- Formulário de acesso -->
+        <form>
+          <label>Email</label>
+          <input type="email">
+
+          <label>Senha</label>
+          <input type="password">
+
+          <!-- Link para recuperação -->
+          <a class="forgot" href="#">
+            Esqueceu a senha? Clique aqui
+          </a>
+
+          <!-- Botão de login com Google -->
+          <button type="button" class="google-btn">
+            <img src="assets/Google.png" alt="Google" />
+            Cadastre-se com sua conta Google
+          </button>
+
+          <!-- Botão principal de login -->
+          <button type="submit" class="login-btn">
+            Login
+          </button>
+        </form>
+
+        <!-- Logo da empresa -->
+        <div class="logo">
+          <img src="assets/logo-tron-azul-escuro.png" alt="TRON" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

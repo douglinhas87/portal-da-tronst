@@ -1,0 +1,268 @@
+/* Configurações iniciais - reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Área principal da página de login */
+.login-wrapper {
+  height: 100vh;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Container que organiza as duas colunas */
+.login-container {
+  width: 1200px;
+  max-width: 95%;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 32px;
+}
+
+/* ------------------------------------------
+   LADO ESQUERDO - Conteúdo institucional
+------------------------------------------ */
+
+.login-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 6px;
+}
+
+/* Texto principal de chamada */
+.headline {
+  font-size: 26px;
+  line-height: 1.25;
+  margin-bottom: 12px;
+  max-width: 420px;
+}
+
+.headline-bold {
+  font-weight: 700;
+}
+
+/* Descrição abaixo do título */
+.login-description {
+  margin-bottom: 28px;
+  color: #555;
+}
+
+.login-description span {
+  display: block;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Imagem ilustrativa */
+.banner {
+  max-width: none;
+  transform: translateX(-40px) scaleX(1.1);
+}
+
+.banner img {
+  width: 100%;
+  border-radius: 24px;
+  margin-bottom: 24px;
+  object-fit: cover;
+  transform: translateX(30px);
+}
+
+/* ------------------------------------------
+   Seletor de idioma
+------------------------------------------ */
+
+.language {
+  position: relative;
+  margin-top: auto; /* joga pro final do container */
+}
+
+.language-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.language-btn img {
+  width: 28px;
+}
+
+.language-btn span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.language-btn .arrow {
+  margin-left: 4px;
+}
+
+/* Menu suspenso de idiomas */
+.language-dropdown {
+  position: absolute;
+  bottom: 140%;
+  left: 0;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+  list-style: none;
+  padding: 6px 0;
+  min-width: 190px;
+  z-index: 10;
+}
+
+.language-dropdown li {
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.language-dropdown li:hover {
+  background: #f2f4f8;
+}
+
+/* ------------------------------------------
+   Cartão de login (lado direito)
+------------------------------------------ */
+
+.login-card {
+  position: relative;
+  border-radius: 44px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10);
+}
+
+/* Plano de fundo do cartão */
+.login-card-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    url('/assets/Rectangle-1.png') center / cover no-repeat,
+    #eef5ff;
+  border-radius: 24px;
+}
+
+/* Conteúdo dentro do cartão */
+.login-card-content {
+  position: relative;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Título do formulário */
+.login-card h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* Subtítulo "Dados Pessoais" */
+.dados-pessoais {
+  font-size: 13px;
+  font-weight: 700;
+  color: #9ca3af;
+  margin-bottom: 24px;
+}
+
+/* Formulário */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+input {
+  height: 46px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: transparent;
+  padding: 0 14px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+/* Link "esqueci a senha" */
+.forgot {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #666;
+  text-decoration: none;
+}
+
+/* ------------------------------------------
+   Botões
+------------------------------------------ */
+
+/* Botão do Google */
+.google-btn {
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.google-btn img {
+  width: 16px;
+}
+
+/* Botão de login principal */
+.login-btn {
+  height: 46px;
+  border-radius: 8px;
+  border: none;
+  background: #0b3cff;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Logo na parte inferior */
+.logo {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.logo img {
+  width: 150px;
+}
+
+/* ------------------------------------------
+   Ajustes para dispositivos menores
+------------------------------------------ */
+
+@media (max-width: 900px) {
+  .login-container {
+    grid-template-columns: 1fr;
+  }
+
+  .login-left {
+    display: none; /* Esconde a coluna esquerda em telas pequenas */
+  }
+}
