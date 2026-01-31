@@ -1,4 +1,4 @@
-/* Configurações iniciais - reset básico */
+/* Reseta margens e padding de todos os elementos */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,7 +6,7 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* Área principal da página de login */
+/* Container principal que ocupa toda a tela */
 .login-wrapper {
   height: 100vh;
   background: #ffffff;
@@ -14,9 +14,10 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding: 20px;
 }
 
-/* Container que organiza as duas colunas */
+/* A área que contém os dois lados (banner e login) */
 .login-container {
   width: 1200px;
   max-width: 95%;
@@ -25,10 +26,7 @@
   gap: 32px;
 }
 
-/* ------------------------------------------
-   LADO ESQUERDO - Conteúdo institucional
------------------------------------------- */
-
+/* Lado esquerdo - onde ficam as imagens e o texto */
 .login-left {
   display: flex;
   flex-direction: column;
@@ -36,7 +34,7 @@
   padding-left: 6px;
 }
 
-/* Texto principal de chamada */
+/* Título principal */
 .headline {
   font-size: 26px;
   line-height: 1.25;
@@ -48,7 +46,7 @@
   font-weight: 700;
 }
 
-/* Descrição abaixo do título */
+/* Texto abaixo do título */
 .login-description {
   margin-bottom: 28px;
   color: #555;
@@ -61,98 +59,166 @@
   line-height: 1.4;
 }
 
-/* Imagem ilustrativa */
-.banner {
-  max-width: none;
-  transform: translateX(-40px) scaleX(1.1);
-}
-
-.banner img {
-  width: 100%;
-  border-radius: 24px;
-  margin-bottom: 24px;
-  object-fit: cover;
-  transform: translateX(30px);
-}
-
-/* ------------------------------------------
-   Seletor de idioma
------------------------------------------- */
-
-.language {
+/* Slider de banners */
+.banner-slider {
   position: relative;
-  margin-top: auto; /* joga pro final do container */
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 44px;
+  margin-bottom: 24px;
 }
 
-.language-btn {
+.slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Cada imagem do slider */
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+  transform: translateX(50px);
+}
+
+/* Imagem ativa (visível) */
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 44px;
+}
+
+/* Botões laterais para trocar as imagens */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-radius: 50%;
+  width: 23px;
+  height: 23px;
+  font-size: 13px;
+  color: #0b3cff;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.arrow:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.arrow.prev { left: 12px; }
+.arrow.next { right: 12px; }
+
+/* Seletor de idioma */
+.language {
+  position: relative;
+  margin-top: auto;
+}
+
+/* Botão que mostra o idioma atual */
+.language-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: none;
   border: none;
   cursor: pointer;
-}
-
-.language-btn img {
-  width: 28px;
-}
-
-.language-btn span {
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 500;
   color: #333;
+  position: relative;
+  transition: color 0.2s ease;
 }
 
-.language-btn .arrow {
-  margin-left: 4px;
+.language-btn img { width: 28px; }
+.language-btn span { font-size: 14px; font-weight: 500; color: #333; }
+
+/* A setinha do botão */
+.language-btn::after {
+  content: "▼";
+  font-size: 12px;
+  color: #000;
+  margin-left: -8px;
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
 }
 
-/* Menu suspenso de idiomas */
+.language-btn.active::after {
+  transform: rotate(180deg) translateY(1px);
+}
+
+/* Lista suspensa com os idiomas */
 .language-dropdown {
   position: absolute;
   bottom: 140%;
   left: 0;
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
   list-style: none;
   padding: 6px 0;
   min-width: 190px;
   z-index: 10;
+  opacity: 0;
+  transform: translateY(10px) scaleY(0.95);
+  transform-origin: top;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.25, 1.5, 0.5, 1);
+  pointer-events: none;
+}
+
+/* Mostra a lista quando o botão está ativo */
+.language-btn.active + .language-dropdown {
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+  pointer-events: auto;
 }
 
 .language-dropdown li {
   padding: 10px 14px;
   font-size: 14px;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.language-dropdown li:hover {
-  background: #f2f4f8;
-}
+.language-dropdown li:hover { background: #f2f4f8; }
 
-/* ------------------------------------------
-   Cartão de login (lado direito)
------------------------------------------- */
-
+/* Card do lado direito onde fica o login */
 .login-card {
   position: relative;
-  border-radius: 44px;
+  border-radius: 54px;
   overflow: hidden;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
 }
 
-/* Plano de fundo do cartão */
+/* Fundo com imagem do card */
 .login-card-bg {
   position: absolute;
   inset: 0;
-  background:
-    url('/assets/Rectangle-1.png') center / cover no-repeat,
-    #eef5ff;
-  border-radius: 24px;
+  background: url('/assets/backgrounds/Rectangle-1.png') center / 102% no-repeat;
+  border-radius: 54px;
 }
 
-/* Conteúdo dentro do cartão */
+/* Conteúdo dentro do card */
 .login-card-content {
   position: relative;
   padding: 40px 32px;
@@ -161,14 +227,12 @@
   justify-content: center;
 }
 
-/* Título do formulário */
 .login-card h2 {
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
-/* Subtítulo "Dados Pessoais" */
 .dados-pessoais {
   font-size: 13px;
   font-weight: 700;
@@ -176,7 +240,7 @@
   margin-bottom: 24px;
 }
 
-/* Formulário */
+/* Estilos do formulário */
 form {
   display: flex;
   flex-direction: column;
@@ -191,14 +255,14 @@ label {
 input {
   height: 46px;
   border-radius: 10px;
-  border: 1px solid rgba(0,0,0,0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   background: transparent;
   padding: 0 14px;
   margin-bottom: 16px;
   font-size: 14px;
 }
 
-/* Link "esqueci a senha" */
+/* Link "esqueceu a senha" */
 .forgot {
   font-size: 12px;
   font-weight: 700;
@@ -207,15 +271,11 @@ input {
   text-decoration: none;
 }
 
-/* ------------------------------------------
-   Botões
------------------------------------------- */
-
-/* Botão do Google */
+/* Botão de login com Google */
 .google-btn {
   height: 44px;
   border-radius: 8px;
-  border: 1px solid rgba(0,0,0,0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   background: transparent;
   display: flex;
   align-items: center;
@@ -227,11 +287,9 @@ input {
   cursor: pointer;
 }
 
-.google-btn img {
-  width: 16px;
-}
+.google-btn img { width: 16px; }
 
-/* Botão de login principal */
+/* Botão principal de login */
 .login-btn {
   height: 46px;
   border-radius: 8px;
@@ -241,28 +299,30 @@ input {
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  transition: 
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+  box-shadow: 0 4px 12px rgba(11, 60, 255, 0.3);
 }
 
-/* Logo na parte inferior */
+/* Efeito ao passar o mouse */
+.login-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(11, 60, 255, 0.35);
+  background: #0a2ecc;
+}
+
+/* Efeito ao clicar */
+.login-btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(11, 60, 255, 0.3);
+}
+
+/* Logo no final do cartão */
 .logo {
   margin-top: 32px;
   text-align: center;
 }
 
-.logo img {
-  width: 150px;
-}
-
-/* ------------------------------------------
-   Ajustes para dispositivos menores
------------------------------------------- */
-
-@media (max-width: 900px) {
-  .login-container {
-    grid-template-columns: 1fr;
-  }
-
-  .login-left {
-    display: none; /* Esconde a coluna esquerda em telas pequenas */
-  }
-}
+.logo img { width: 150px; }
