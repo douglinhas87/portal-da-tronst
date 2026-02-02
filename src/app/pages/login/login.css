@@ -271,24 +271,6 @@ input {
   text-decoration: none;
 }
 
-/* Botão de login com Google */
-.google-btn {
-  height: 44px;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  cursor: pointer;
-}
-
-.google-btn img { width: 16px; }
-
 /* Botão principal de login */
 .login-btn {
   height: 46px;
@@ -317,6 +299,33 @@ input {
 .login-btn:active {
   transform: translateY(-1px);
   box-shadow: 0 6px 15px rgba(11, 60, 255, 0.3);
+}
+
+.whatsapp-btn {
+  height: 46px;
+  border-radius: 8px;
+  border: 1px solid #25d366;
+  background: transparent;
+  color: #25d366;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  margin-top: 12px;
+}
+
+.whatsapp-btn img {
+  width: 18px;
+}
+
+.whatsapp-btn:hover {
+  background: #25d366;
+  color: #fff;
+  transform: translateY(-2px);
 }
 
 /* Logo no final do cartão */

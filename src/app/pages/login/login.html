@@ -41,13 +41,19 @@
 
       <!-- Seletor de idiomas -->
       <div class="language">
-        <button class="language-btn" (click)="toggleLanguage()" [class.active]="languageOpen">
+        <button
+          class="language-btn"
+          (click)="toggleLanguage()"
+          [class.active]="languageOpen"
+        >
           <img src="assets/icons/Brazil-flag.png" alt="PT-BR" />
           <span>Português - BR</span>
         </button>
 
-        <!-- Lista de idiomas disponíveis -->
-        <ul class="language-dropdown" [@dropdownAnimation]="languageOpen ? 'open' : 'closed'">
+        <ul
+          class="language-dropdown"
+          [@dropdownAnimation]="languageOpen ? 'open' : 'closed'"
+        >
           <li (click)="selectLanguage('pt')">Português - BR</li>
           <li (click)="selectLanguage('en')">English - US</li>
           <li (click)="selectLanguage('es')">Español</li>
@@ -59,6 +65,7 @@
     <!-- Lado direito - card de login -->
     <div class="login-card">
       <div class="login-card-bg"></div>
+
       <div class="login-card-content">
         <h2>Login</h2>
         <span class="dados-pessoais">Dados pessoais</span>
@@ -73,19 +80,29 @@
 
           <a class="forgot" href="#">Esqueceu a senha? Clique aqui</a>
 
-          <!-- Botão para login com Google -->
-          <button type="button" class="google-btn">
-            <img src="assets/icons/Google.png" alt="Google" />
-            Cadastre-se com sua conta Google
+          <!-- Botão principal de login -->
+          <button type="submit" class="login-btn light-swipe">
+            Login
           </button>
 
-          <!-- Botão principal de login -->
-          <button type="submit" class="login-btn light-swipe">Login</button>
+          <!-- Botão WhatsApp - suporte -->
+          <a
+            class="whatsapp-btn"
+            href="https://api.whatsapp.com/send/?phone=558192835554&text=Ol%C3%A1%2C+preciso+de+ajuda+no+sistema&type=phone_number&app_absent=0"
+            target="_blank"
+            rel="noopener"
+          >
+            <i class="fab fa-whatsapp"></i>
+            Falar com o suporte
+          </a>
         </form>
 
         <!-- Logo da empresa -->
         <div class="logo">
-          <img src="assets/logos/logo-tron-azul-escuro.png" alt="TRON" />
+          <img
+            src="assets/logos/logo-tron-azul-escuro.png"
+            alt="TRON"
+          />
         </div>
       </div>
     </div>
