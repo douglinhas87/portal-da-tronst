@@ -1,45 +1,67 @@
-<!-- Aqui começa o nosso container principal -->
+<!-- Área principal da tela de login -->
 <div class="login-wrapper">
   <div class="login-container">
 
-    <!-- Lado esquerdo - onde ficam o banner e as informações -->
+    <!-- Parte esquerda - imagens e informações da empresa -->
     <div class="login-left">
 
-      <!-- Banner com slider de imagens -->
-      <div class="banner-slider" (mouseenter)="pauseSlider()" (mouseleave)="resumeSlider()">
-        <div class="slides">
-          <div class="slide active">
-            <img src="assets/banners/Rectangle-2.png" alt="Notícia 1" />
+      <!-- Banner de notícias (clica para acessar o site) -->
+      <a
+        class="banner-link"
+        href="https://www.tronst.com.br/"
+        target="_blank"
+        rel="noopener"
+      >
+        <div
+          class="banner-slider"
+          (mouseenter)="pauseSlider()"
+          (mouseleave)="resumeSlider()"
+        >
+          <div class="slides">
+            <div class="slide active">
+              <img src="assets/banners/Rectangle-2.png" alt="Notícia 1" />
+            </div>
+            <div class="slide">
+              <img src="assets/banners/Unimax.png" alt="Notícia 2" />
+            </div>
+            <div class="slide">
+              <img src="assets/banners/Unilaundry.png" alt="Notícia 3" />
+            </div>
+            <div class="slide">
+              <img src="assets/banners/Banner-Jet-Belt.png" alt="Notícia 4" />
+            </div>
           </div>
-          <div class="slide">
-            <img src="assets/banners/Unimax.png" alt="Notícia 2" />
-          </div>
-          <div class="slide">
-            <img src="assets/banners/Unilaundry.png" alt="Notícia 3" />
-          </div>
-          <div class="slide">
-            <img src="assets/banners/Banner-Jet-Belt.png" alt="Notícia 4" />
-          </div>
+
+          <!-- Setinhas para passar as imagens -->
+          <button
+            class="arrow prev"
+            (click)="prevSlide(); $event.preventDefault()"
+          >
+            &#10094;
+          </button>
+
+          <button
+            class="arrow next"
+            (click)="nextSlideManual(); $event.preventDefault()"
+          >
+            &#10095;
+          </button>
         </div>
+      </a>
 
-        <!-- Botões para navegar entre as imagens -->
-        <button class="arrow prev" (click)="prevSlide()">&#10094;</button>
-        <button class="arrow next" (click)="nextSlideManual()">&#10095;</button>
-      </div>
-
-      <!-- Título principal -->
+      <!-- Nosso slogan -->
       <h1 class="headline">
         <span class="headline-bold">Uma nova era se inicia com</span><br />
         <span class="headline-bold">transformação!</span>
       </h1>
 
-      <!-- Texto explicativo -->
+      <!-- O que fazemos -->
       <div class="login-description">
         <span class="line-1">Soluções de tecnologia para o mercado</span>
         <span class="line-2">de higiene profissional.</span>
       </div>
 
-      <!-- Seletor de idiomas -->
+      <!-- Escolha seu idioma -->
       <div class="language">
         <button
           class="language-btn"
@@ -62,7 +84,7 @@
 
     </div>
 
-    <!-- Lado direito - card de login -->
+    <!-- Lado direito - onde você faz o login -->
     <div class="login-card">
       <div class="login-card-bg"></div>
 
@@ -70,7 +92,7 @@
         <h2>Login</h2>
         <span class="dados-pessoais">Dados pessoais</span>
 
-        <!-- Formulário de login -->
+        <!-- Formulário para acessar sua conta -->
         <form>
           <label>Email</label>
           <input type="email" />
@@ -80,24 +102,27 @@
 
           <a class="forgot" href="#">Esqueceu a senha? Clique aqui</a>
 
-          <!-- Botão principal de login -->
+          <!-- Botão para entrar -->
           <button type="submit" class="login-btn light-swipe">
             Login
           </button>
 
-          <!-- Botão WhatsApp - suporte -->
+          <!-- Precisa de ajuda? Fale com nosso suporte -->
           <a
             class="whatsapp-btn"
             href="https://api.whatsapp.com/send/?phone=558192835554&text=Ol%C3%A1%2C+preciso+de+ajuda+no+sistema&type=phone_number&app_absent=0"
             target="_blank"
             rel="noopener"
           >
-            <i class="fab fa-whatsapp"></i>
+            <img
+              src="assets/icons/whatsapp.png"
+              alt="WhatsApp"
+            />
             Falar com o suporte
           </a>
         </form>
 
-        <!-- Logo da empresa -->
+        <!-- Nossa logo -->
         <div class="logo">
           <img
             src="assets/logos/logo-tron-azul-escuro.png"

@@ -1,4 +1,4 @@
-/* Reseta margens e padding de todos os elementos */
+/* Começamos resetando tudo para evitar surpresas */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,7 +6,7 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* Container principal que ocupa toda a tela */
+/* A tela inteira fica branca e centralizada */
 .login-wrapper {
   height: 100vh;
   background: #ffffff;
@@ -17,7 +17,7 @@
   padding: 20px;
 }
 
-/* A área que contém os dois lados (banner e login) */
+/* Caixa principal que divide banner e login */
 .login-container {
   width: 1200px;
   max-width: 95%;
@@ -26,7 +26,7 @@
   gap: 32px;
 }
 
-/* Lado esquerdo - onde ficam as imagens e o texto */
+/* Lado esquerdo - onde ficam nossas novidades */
 .login-left {
   display: flex;
   flex-direction: column;
@@ -34,7 +34,7 @@
   padding-left: 6px;
 }
 
-/* Título principal */
+/* Nosso slogan principal */
 .headline {
   font-size: 26px;
   line-height: 1.25;
@@ -46,7 +46,7 @@
   font-weight: 700;
 }
 
-/* Texto abaixo do título */
+/* Textinho explicativo abaixo do slogan */
 .login-description {
   margin-bottom: 28px;
   color: #555;
@@ -59,7 +59,15 @@
   line-height: 1.4;
 }
 
-/* Slider de banners */
+/* Link do banner - clica pra visitar o site */
+.banner-link {
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* O carrossel de imagens */
 .banner-slider {
   position: relative;
   width: 100%;
@@ -75,7 +83,7 @@
   height: 100%;
 }
 
-/* Cada imagem do slider */
+/* Cada imagem do carrossel */
 .slide {
   position: absolute;
   width: 100%;
@@ -85,7 +93,7 @@
   transform: translateX(50px);
 }
 
-/* Imagem ativa (visível) */
+/* Imagem que está aparecendo no momento */
 .slide.active {
   opacity: 1;
   transform: translateX(0);
@@ -98,7 +106,7 @@
   border-radius: 44px;
 }
 
-/* Botões laterais para trocar as imagens */
+/* Setinhas para passar as imagens */
 .arrow {
   position: absolute;
   top: 50%;
@@ -119,6 +127,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Efeitinho quando passa o mouse */
 .arrow:hover {
   background: rgba(255, 255, 255, 0.9);
   transform: translateY(-50%) scale(1.1);
@@ -128,13 +137,13 @@
 .arrow.prev { left: 12px; }
 .arrow.next { right: 12px; }
 
-/* Seletor de idioma */
+/* Seletor de idiomas - fica lá embaixo */
 .language {
   position: relative;
   margin-top: auto;
 }
 
-/* Botão que mostra o idioma atual */
+/* Botão que mostra qual idioma tá selecionado */
 .language-btn {
   display: inline-flex;
   align-items: center;
@@ -153,7 +162,7 @@
 .language-btn img { width: 28px; }
 .language-btn span { font-size: 14px; font-weight: 500; color: #333; }
 
-/* A setinha do botão */
+/* A setinha que gira quando abre */
 .language-btn::after {
   content: "▼";
   font-size: 12px;
@@ -167,7 +176,7 @@
   transform: rotate(180deg) translateY(1px);
 }
 
-/* Lista suspensa com os idiomas */
+/* Listinha que abre com os idiomas */
 .language-dropdown {
   position: absolute;
   bottom: 140%;
@@ -186,7 +195,7 @@
   pointer-events: none;
 }
 
-/* Mostra a lista quando o botão está ativo */
+/* Quando abre, mostra suave */
 .language-btn.active + .language-dropdown {
   opacity: 1;
   transform: translateY(0) scaleY(1);
@@ -202,7 +211,7 @@
 
 .language-dropdown li:hover { background: #f2f4f8; }
 
-/* Card do lado direito onde fica o login */
+/* Cartão bonito do lado direito */
 .login-card {
   position: relative;
   border-radius: 54px;
@@ -210,7 +219,7 @@
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
 }
 
-/* Fundo com imagem do card */
+/* Fundo com textura do cartão */
 .login-card-bg {
   position: absolute;
   inset: 0;
@@ -218,7 +227,7 @@
   border-radius: 54px;
 }
 
-/* Conteúdo dentro do card */
+/* Conteúdo dentro do cartão */
 .login-card-content {
   position: relative;
   padding: 40px 32px;
@@ -240,7 +249,7 @@
   margin-bottom: 24px;
 }
 
-/* Estilos do formulário */
+/* Estilização do formulário */
 form {
   display: flex;
   flex-direction: column;
@@ -252,6 +261,7 @@ label {
   margin-bottom: 6px;
 }
 
+/* Campos de entrada */
 input {
   height: 46px;
   border-radius: 10px;
@@ -262,7 +272,7 @@ input {
   font-size: 14px;
 }
 
-/* Link "esqueceu a senha" */
+/* Link pra quando esquece a senha */
 .forgot {
   font-size: 12px;
   font-weight: 700;
@@ -271,7 +281,7 @@ input {
   text-decoration: none;
 }
 
-/* Botão principal de login */
+/* Botão principal - entrar na conta */
 .login-btn {
   height: 46px;
   border-radius: 8px;
@@ -288,47 +298,67 @@ input {
   box-shadow: 0 4px 12px rgba(11, 60, 255, 0.3);
 }
 
-/* Efeito ao passar o mouse */
+/* Dá uma levantadinha quando passa o mouse */
 .login-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(11, 60, 255, 0.35);
   background: #0a2ecc;
 }
 
-/* Efeito ao clicar */
+/* E um clique suave */
 .login-btn:active {
   transform: translateY(-1px);
   box-shadow: 0 6px 15px rgba(11, 60, 255, 0.3);
 }
 
+/* Botão do WhatsApp pra falar com suporte */
 .whatsapp-btn {
   height: 46px;
   border-radius: 8px;
-  border: 1px solid #25d366;
-  background: transparent;
-  color: #25d366;
+  border: none;
+  background: #25d366;
+  color: #ffffff;
+
   font-size: 14px;
   font-weight: 600;
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+
   text-decoration: none;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-  margin-top: 12px;
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  margin-top: 16px;
+
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
 }
 
 .whatsapp-btn img {
   width: 18px;
+  height: 18px;
 }
 
+/* Fica mais escuro no hover */
 .whatsapp-btn:hover {
-  background: #25d366;
-  color: #fff;
+  background: #1ebe5d;
   transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(37, 211, 102, 0.45);
 }
 
-/* Logo no final do cartão */
+/* E mais suave no clique */
+.whatsapp-btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(37, 211, 102, 0.4);
+}
+
+/* Nossa logo lá no final */
 .logo {
   margin-top: 32px;
   text-align: center;
