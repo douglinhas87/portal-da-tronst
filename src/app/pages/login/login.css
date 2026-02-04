@@ -1,4 +1,4 @@
-/* Começamos resetando tudo para evitar surpresas */
+/* Estilos gerais para garantir consistência em todos os navegadores */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,7 +6,7 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* A tela inteira fica branca e centralizada */
+/* Container principal que cobre toda a tela */
 .login-wrapper {
   height: 100vh;
   background: #ffffff;
@@ -17,24 +17,25 @@
   padding: 20px;
 }
 
-/* Caixa principal que divide banner e login */
+/* Caixa principal do formulário de login */
 .login-container {
   width: 1200px;
   max-width: 95%;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   gap: 32px;
+  align-items: start;
 }
 
-/* Lado esquerdo - onde ficam nossas novidades */
+/* Lado esquerdo - conteúdo introdutório */
 .login-left {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   padding-left: 6px;
 }
 
-/* Nosso slogan principal */
+/* Título principal */
 .headline {
   font-size: 26px;
   line-height: 1.25;
@@ -46,7 +47,7 @@
   font-weight: 700;
 }
 
-/* Textinho explicativo abaixo do slogan */
+/* Texto descritivo abaixo do título */
 .login-description {
   margin-bottom: 28px;
   color: #555;
@@ -59,15 +60,17 @@
   line-height: 1.4;
 }
 
-/* Link do banner - clica pra visitar o site */
+.login-left app-language-selector {
+  margin-top: 70px;
+}
+
+/* Banner com slides */
 .banner-link {
-  cursor: pointer;
   display: block;
   text-decoration: none;
   color: inherit;
 }
 
-/* O carrossel de imagens */
 .banner-slider {
   position: relative;
   width: 100%;
@@ -83,20 +86,31 @@
   height: 100%;
 }
 
-/* Cada imagem do carrossel */
+/* Estilos para cada slide individual */
 .slide {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   opacity: 0;
-  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-  transform: translateX(50px);
+  pointer-events: none;
+  transition:
+    opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Imagem que está aparecendo no momento */
+/* Animações de entrada dos slides */
+.slide.enter-right {
+  transform: translateX(40px);
+}
+
+.slide.enter-left {
+  transform: translateX(-40px);
+}
+
+/* Slide ativo - visível para o usuário */
 .slide.active {
   opacity: 1;
   transform: translateX(0);
+  pointer-events: auto;
 }
 
 .slide img {
@@ -106,120 +120,55 @@
   border-radius: 44px;
 }
 
-/* Setinhas para passar as imagens */
+/* Botões de navegação entre slides */
 .arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.6);
-  border: none;
-  border-radius: 50%;
   width: 23px;
   height: 23px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.65);
+  border: none;
   font-size: 13px;
+  font-weight: 700;
   color: #0b3cff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
   z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-/* Efeitinho quando passa o mouse */
 .arrow:hover {
-  background: rgba(255, 255, 255, 0.9);
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
 }
 
-.arrow.prev { left: 12px; }
-.arrow.next { right: 12px; }
-
-/* Seletor de idiomas - fica lá embaixo */
-.language {
-  position: relative;
-  margin-top: auto;
+.arrow.prev {
+  left: 12px;
 }
 
-/* Botão que mostra qual idioma tá selecionado */
-.language-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  position: relative;
-  transition: color 0.2s ease;
+.arrow.next {
+  right: 12px;
 }
 
-.language-btn img { width: 28px; }
-.language-btn span { font-size: 14px; font-weight: 500; color: #333; }
-
-/* A setinha que gira quando abre */
-.language-btn::after {
-  content: "▼";
-  font-size: 12px;
-  color: #000;
-  margin-left: -8px;
-  transform: translateY(-2px);
-  transition: transform 0.3s ease;
-}
-
-.language-btn.active::after {
-  transform: rotate(180deg) translateY(1px);
-}
-
-/* Listinha que abre com os idiomas */
-.language-dropdown {
-  position: absolute;
-  bottom: 140%;
-  left: 0;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
-  list-style: none;
-  padding: 6px 0;
-  min-width: 190px;
-  z-index: 10;
-  opacity: 0;
-  transform: translateY(10px) scaleY(0.95);
-  transform-origin: top;
-  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.25, 1.5, 0.5, 1);
-  pointer-events: none;
-}
-
-/* Quando abre, mostra suave */
-.language-btn.active + .language-dropdown {
-  opacity: 1;
-  transform: translateY(0) scaleY(1);
-  pointer-events: auto;
-}
-
-.language-dropdown li {
-  padding: 10px 14px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.language-dropdown li:hover { background: #f2f4f8; }
-
-/* Cartão bonito do lado direito */
+/* Card do formulário de login */
 .login-card {
   position: relative;
   border-radius: 54px;
   overflow: hidden;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  min-height: 530px;
 }
 
-/* Fundo com textura do cartão */
+/* Plano de fundo do card */
 .login-card-bg {
   position: absolute;
   inset: 0;
@@ -227,7 +176,7 @@
   border-radius: 54px;
 }
 
-/* Conteúdo dentro do cartão */
+/* Conteúdo dentro do card */
 .login-card-content {
   position: relative;
   padding: 40px 32px;
@@ -236,6 +185,7 @@
   justify-content: center;
 }
 
+/* Títulos dentro do card */
 .login-card h2 {
   font-size: 22px;
   font-weight: 600;
@@ -245,11 +195,12 @@
 .dados-pessoais {
   font-size: 13px;
   font-weight: 700;
-  color: #9ca3af;
+  color: #A4A4A4;
   margin-bottom: 24px;
+  text-transform: none;
 }
 
-/* Estilização do formulário */
+/* Estilos do formulário */
 form {
   display: flex;
   flex-direction: column;
@@ -261,7 +212,6 @@ label {
   margin-bottom: 6px;
 }
 
-/* Campos de entrada */
 input {
   height: 46px;
   border-radius: 10px;
@@ -272,16 +222,26 @@ input {
   font-size: 14px;
 }
 
-/* Link pra quando esquece a senha */
+input:focus {
+  outline: none;
+  border-color: #9ca3af;
+  box-shadow: 0 0 0 1px rgba(156, 163, 175, 0.25);
+}
+
+/* Link "Esqueci minha senha" */
 .forgot {
   font-size: 12px;
   font-weight: 700;
   margin-bottom: 20px;
-  color: #666;
+  color: #A4A4A4;
   text-decoration: none;
 }
 
-/* Botão principal - entrar na conta */
+.forgot:hover {
+  color: #374151
+}
+
+/* Botão de login principal */
 .login-btn {
   height: 46px;
   border-radius: 8px;
@@ -291,30 +251,30 @@ input {
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
     background 0.2s ease;
-  box-shadow: 0 4px 12px rgba(11, 60, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(11, 60, 255, 0.35);
 }
 
-/* Dá uma levantadinha quando passa o mouse */
 .login-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(11, 60, 255, 0.35);
   background: #0a2ecc;
-}
-
-/* E um clique suave */
-.login-btn:active {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 15px rgba(11, 60, 255, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(11, 60, 255, 0.4);
 }
 
 /* Botão do WhatsApp pra falar com suporte */
 .whatsapp-btn {
   height: 46px;
   border-radius: 8px;
+  border: 1px solid #25d366;
+  background: transparent;
+  color: #25d366;
   border: none;
   background: #25d366;
   color: #ffffff;
@@ -328,6 +288,8 @@ input {
   gap: 10px;
 
   text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  margin-top: 12px;
   cursor: pointer;
 
   transition:
@@ -347,6 +309,8 @@ input {
 
 /* Fica mais escuro no hover */
 .whatsapp-btn:hover {
+  background: #25d366;
+  color: #fff;
   background: #1ebe5d;
   transform: translateY(-2px);
   box-shadow: 0 8px 18px rgba(37, 211, 102, 0.45);
@@ -358,10 +322,25 @@ input {
   box-shadow: 0 6px 14px rgba(37, 211, 102, 0.4);
 }
 
-/* Nossa logo lá no final */
+/* Logo da TRON no final do formulário */
 .logo {
-  margin-top: 32px;
+  margin-top: 35px;
   text-align: center;
 }
 
-.logo img { width: 150px; }
+.logo img {
+  width: 150px;
+}
+
+/* Classes para acessibilidade - texto oculto visualmente */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

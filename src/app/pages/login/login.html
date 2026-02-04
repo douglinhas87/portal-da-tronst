@@ -1,132 +1,157 @@
-<!-- Área principal da tela de login -->
 <div class="login-wrapper">
   <div class="login-container">
 
-    <!-- Parte esquerda - imagens e informações da empresa -->
+    <!-- Seção de boas-vindas e conteúdo informativo -->
     <div class="login-left">
 
-      <!-- Banner de notícias (clica para acessar o site) -->
+      <!-- Banner promocional com link para o site -->
       <a
         class="banner-link"
         href="https://www.tronst.com.br/"
         target="_blank"
-        rel="noopener"
+        rel="noopener nofollow"
+        [attr.aria-label]="translations?.supportButton"
       >
         <div
           class="banner-slider"
           (mouseenter)="pauseSlider()"
           (mouseleave)="resumeSlider()"
+          role="region"
+          aria-label="Carrossel de notícias"
+          aria-describedby="slider-instructions"
         >
-          <div class="slides">
-            <div class="slide active">
-              <img src="assets/banners/Rectangle-2.png" alt="Notícia 1" />
+          <div class="slides" role="list">
+
+            <!-- Primeira imagem do carrossel -->
+            <div class="slide" #slide role="listitem" [attr.aria-label]="translations?.headline1">
+              <img src="assets/banners/Rectangle-2.png" [alt]="translations?.description1" />
             </div>
-            <div class="slide">
-              <img src="assets/banners/Unimax.png" alt="Notícia 2" />
+
+            <!-- Segunda imagem do carrossel -->
+            <div class="slide" #slide role="listitem" [attr.aria-label]="translations?.headline2">
+              <img src="assets/banners/Unimax.png" alt="Solução Unimax para gestão empresarial" />
             </div>
-            <div class="slide">
-              <img src="assets/banners/Unilaundry.png" alt="Notícia 3" />
+
+            <!-- Terceira imagem do carrossel -->
+            <div class="slide" #slide role="listitem" aria-label="Notícia 3 de 4">
+              <img src="assets/banners/Unilaundry.png" alt="Sistema Unilaundry para lavanderias" />
             </div>
-            <div class="slide">
-              <img src="assets/banners/Banner-Jet-Belt.png" alt="Notícia 4" />
+
+            <!-- Quarta imagem do carrossel -->
+            <div class="slide" #slide role="listitem" aria-label="Notícia 4 de 4">
+              <img src="assets/banners/Banner-Jet-Belt.png" alt="Conheça o Jet Belt" />
             </div>
           </div>
 
-          <!-- Setinhas para passar as imagens -->
+          <!-- Botão para voltar a imagem anterior -->
           <button
             class="arrow prev"
-            (click)="prevSlide(); $event.preventDefault()"
+            (click)="prevSlideManual(); $event.preventDefault()"
+            [attr.aria-label]="'Ver imagem anterior'"
           >
-            &#10094;
+            ‹
           </button>
 
+          <!-- Botão para avançar para próxima imagem -->
           <button
             class="arrow next"
             (click)="nextSlideManual(); $event.preventDefault()"
+            [attr.aria-label]="'Ver próxima imagem'"
           >
-            &#10095;
+            ›
           </button>
+
+          <!-- Instruções de acessibilidade para o carrossel -->
+          <div id="slider-instructions" class="sr-only">
+            {{ translations?.description1 }} {{ translations?.description2 }}
+          </div>
         </div>
       </a>
 
-      <!-- Nosso slogan -->
+      <!-- Título principal da página -->
       <h1 class="headline">
-        <span class="headline-bold">Uma nova era se inicia com</span><br />
-        <span class="headline-bold">transformação!</span>
+        <span class="headline-bold">{{ translations?.headline1 }}</span><br />
+        <span class="headline-bold">{{ translations?.headline2 }}</span>
       </h1>
 
-      <!-- O que fazemos -->
+      <!-- Texto de descrição explicativa -->
       <div class="login-description">
-        <span class="line-1">Soluções de tecnologia para o mercado</span>
-        <span class="line-2">de higiene profissional.</span>
+        <span>{{ translations?.description1 }}</span>
+        <span>{{ translations?.description2 }}</span>
       </div>
 
-      <!-- Escolha seu idioma -->
-      <div class="language">
-        <button
-          class="language-btn"
-          (click)="toggleLanguage()"
-          [class.active]="languageOpen"
-        >
-          <img src="assets/icons/Brazil-flag.png" alt="PT-BR" />
-          <span>Português - BR</span>
-        </button>
-
-        <ul
-          class="language-dropdown"
-          [@dropdownAnimation]="languageOpen ? 'open' : 'closed'"
-        >
-          <li (click)="selectLanguage('pt')">Português - BR</li>
-          <li (click)="selectLanguage('en')">English - US</li>
-          <li (click)="selectLanguage('es')">Español</li>
-        </ul>
-      </div>
-
+      <!-- Seletor de idiomas -->
+      <app-language-selector></app-language-selector>
     </div>
 
-    <!-- Lado direito - onde você faz o login -->
+    <!-- Formulário de login -->
     <div class="login-card">
+      <!-- Plano de fundo decorativo do card -->
       <div class="login-card-bg"></div>
 
+      <!-- Conteúdo principal do formulário -->
       <div class="login-card-content">
-        <h2>Login</h2>
-        <span class="dados-pessoais">Dados pessoais</span>
+        <h2>{{ translations?.loginTitle }}</h2>
+        <!-- Subtítulo do formulário -->
+        <span class="dados-pessoais">{{ translations?.personalData }}</span>
 
-        <!-- Formulário para acessar sua conta -->
-        <form>
-          <label>Email</label>
-          <input type="email" />
+        <!-- Formulário de login -->
+        <form (ngSubmit)="onSubmit($event)" #loginForm="ngForm">
+          <!-- Campo de email -->
+          <label>{{ translations?.emailLabel }}</label>
+          <input 
+            type="email" 
+            [(ngModel)]="email" 
+            name="email" 
+            required 
+            aria-label="Email"
+          />
 
-          <label>Senha</label>
-          <input type="password" />
+          <!-- Campo de senha -->
+          <label>{{ translations?.passwordLabel }}</label>
+          <input 
+            type="password" 
+            [(ngModel)]="password" 
+            name="password" 
+            required 
+            aria-label="Senha"
+          />
 
-          <a class="forgot" href="#">Esqueceu a senha? Clique aqui</a>
+          <!-- Link para recuperação de senha -->
+          <a class="forgot" href="#">
+            {{ translations?.forgotPassword }}
+          </a>
 
-          <!-- Botão para entrar -->
-          <button type="submit" class="login-btn light-swipe">
-            Login
+          <!-- Botão principal de login -->
+          <button class="login-btn" type="submit" [disabled]="isLoading">
+            @if (isLoading) {
+              <!-- Indicador de carregamento -->
+              <span class="btn-spinner"></span>
+            }
+            <span>{{ translations?.loginButton }}</span>
           </button>
 
-          <!-- Precisa de ajuda? Fale com nosso suporte -->
-          <a
-            class="whatsapp-btn"
-            href="https://api.whatsapp.com/send/?phone=558192835554&text=Ol%C3%A1%2C+preciso+de+ajuda+no+sistema&type=phone_number&app_absent=0"
+          <!-- Botão para contato via WhatsApp -->
+          <a 
+            class="whatsapp-btn" 
             target="_blank"
-            rel="noopener"
+            href="https://api.whatsapp.com/send/?phone=558192835554&text=Ol%C3%A1%2C+preciso+de+ajuda+no+sistema&type=phone_number&app_absent=0"
+            [attr.aria-label]="translations?.supportButton"
           >
-            <img
-              src="assets/icons/whatsapp.png"
-              alt="WhatsApp"
+            <img 
+              src="assets/icons/whatsapp.png" 
+              alt="Ícone WhatsApp" 
+              class="whatsapp-icon"
             />
-            Falar com o suporte
+            {{ translations?.supportButton }}
           </a>
         </form>
 
-        <!-- Nossa logo -->
+        <!-- Logo da TRON -->
         <div class="logo">
-          <img
-            src="assets/logos/logo-tron-azul-escuro.png"
-            alt="TRON"
+          <img 
+            src="assets/logos/logo-tron-azul-escuro.png" 
+            [alt]="translations?.headline1" 
           />
         </div>
       </div>

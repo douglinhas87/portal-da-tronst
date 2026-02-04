@@ -1,135 +1,204 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  OnDestroy,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+  OnInit
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { FormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { LanguageSelectorComponent } from '../../shared/components/language-selector/language-selector';
+import { TranslationService, Translation } from '../../shared/services/translation';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, LanguageSelectorComponent],
   templateUrl: './login.html',
-  styleUrls: ['./login.css'],
-  animations: [
-    // Animação para abrir/fechar a lista de idiomas
-    trigger('dropdownAnimation', [
-      state('closed', style({ opacity: 0, transform: 'translateY(10px) scaleY(0.95)' })),
-      state('open', style({ opacity: 1, transform: 'translateY(0) scaleY(1)' })),
-      transition('closed <=> open', animate('350ms cubic-bezier(0.25, 1.5, 0.5, 1)'))
-    ])
-  ]
+  styleUrls: ['./login.css']
 })
-export class LoginComponent implements AfterViewInit, OnDestroy {
+export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
+  // Dados do formulário
+  email = '';
+  password = '';
+  isLoading = false;
 
-  // Controla se a lista de idiomas está aberta ou fechada
-  languageOpen = false;
-  // Idioma atualmente selecionado
-  currentLanguage = 'pt';
+  // Textos traduzidos da interface
+  translations: Translation | null = null;
 
-  // Abre ou fecha a lista de idiomas
-  toggleLanguage() {
-    this.languageOpen = !this.languageOpen;
+  // Referências para os slides do carrossel
+  @ViewChildren('slide') slideRefs!: QueryList<ElementRef>;
+  slides: HTMLElement[] = [];
+  currentIndex = 0; // Índice do slide atualmente visível
+
+  // Configuração do carrossel - tempo entre transições automáticas
+  slideInterval = 10000; // 10 segundos
+  intervalId: any; // Identificador do intervalo automático
+
+  // Sujeito para gerenciar a limpeza de inscrições
+  private destroy$ = new Subject<void>();
+
+  constructor(private translationService: TranslationService) {}
+
+  /**
+   * Método executado quando o componente é inicializado
+   * Configura a escuta por mudanças nos textos traduzidos
+   */
+  ngOnInit(): void {
+    this.translationService.translations$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(t => this.translations = t);
   }
 
-  // Seleciona um idioma e fecha a lista
-  selectLanguage(lang: string) {
-    this.currentLanguage = lang;
-    this.languageOpen = false;
+  /**
+   * Método executado após a renderização da view
+   * Inicializa o carrossel de imagens
+   */
+  ngAfterViewInit(): void {
+    requestAnimationFrame(() => this.initSlider());
   }
 
-  // Referências para as imagens do slider
-  slides!: HTMLElement[];
-  // Índice da imagem atual (começa na primeira)
-  currentIndex = 0;
-  // Tempo em milissegundos para trocar as imagens automaticamente (10 segundos)
-  slideInterval = 10000;
-  // Guarda a referência do temporizador
-  intervalId: any = null;
-
-  // Após a tela carregar, configura o slider
-  ngAfterViewInit() {
-    // Pega todas as imagens do slider
-    this.slides = Array.from(document.querySelectorAll('.slide'));
-    // Mostra a primeira imagem
-    this.showSlide(0);
-    // Começa a trocar as imagens automaticamente
-    this.startInterval();
-  }
-
-  // Limpa o temporizador quando sair da tela
-  ngOnDestroy() {
+  /**
+   * Método executado quando o componente é destruído
+   * Realiza a limpeza de recursos para evitar vazamentos de memória
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.clearInterval();
   }
 
-  // Mostra uma imagem específica do slider
-  showSlide(index: number) {
-    // Se não encontrar imagens, sai da função
-    if (!this.slides || this.slides.length === 0) return;
+  /**
+   * Configuração inicial do carrossel de imagens
+   * Coleta as referências dos slides e inicia a transição automática
+   */
+  initSlider(): void {
+    this.slides = this.slideRefs.map(ref => ref.nativeElement);
+    if (!this.slides.length) return;
+
+    this.showSlide(0, 'next');
+    this.startInterval();
+  }
+
+  /**
+   * Exibe um slide específico do carrossel com animação
+   * @param index Posição do slide a ser exibido
+   * @param direction Direção da animação ('next' para direita, 'prev' para esquerda)
+   */
+  showSlide(index: number, direction: 'next' | 'prev'): void {
+    const total = this.slides.length;
+    const safeIndex = (index + total) % total;
+
+    // Remove todas as classes de animação dos slides
+    this.slides.forEach(slide =>
+      slide.classList.remove('active', 'enter-left', 'enter-right')
+    );
+
+    // Aplica a animação de entrada no slide selecionado
+    const slide = this.slides[safeIndex];
+    slide.classList.add(direction === 'next' ? 'enter-right' : 'enter-left');
     
-    // Remove a classe 'active' de todas e adiciona apenas na imagem atual
-    this.slides.forEach((slide, i) => {
-      slide.classList.toggle('active', i === index);
-    });
+    // Força uma reflow para garantir que a animação seja executada
+    slide.offsetHeight;
     
-    // Atualiza qual imagem está visível
-    this.currentIndex = index;
+    // Torna o slide visível
+    slide.classList.add('active');
+
+    this.currentIndex = safeIndex;
   }
 
-  // Vai para a próxima imagem
-  nextSlide() {
-    // Calcula o índice da próxima imagem (volta para a primeira se chegar no final)
-    const next = (this.currentIndex + 1) % this.slides.length;
-    this.showSlide(next);
+  /**
+   * Avança para o próximo slide do carrossel
+   */
+  nextSlide(): void {
+    this.showSlide(this.currentIndex + 1, 'next');
   }
 
-  // Vai para a imagem anterior
-  prevSlide() {
-    // Calcula o índice da imagem anterior (vai para a última se estiver na primeira)
-    const prev = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
-    this.showSlide(prev);
-    // Reinicia o temporizador para não trocar logo após o usuário clicar
-    this.restartInterval();
+  /**
+   * Volta para o slide anterior do carrossel
+   */
+  prevSlide(): void {
+    this.showSlide(this.currentIndex - 1, 'prev');
   }
 
-  // Próxima imagem quando o usuário clica manualmente
-  nextSlideManual() {
+  /**
+   * Avança para o próximo slide quando o usuário clica manualmente
+   * Reinicia o intervalo automático para dar tempo ao usuário ver o slide
+   */
+  nextSlideManual(): void {
     this.nextSlide();
     this.restartInterval();
   }
 
-  // Pausa a troca automática (quando o mouse entra no slider)
-  pauseSlider() {
+  /**
+   * Volta para o slide anterior quando o usuário clica manualmente
+   * Reinicia o intervalo automático para dar tempo ao usuário ver o slide
+   */
+  prevSlideManual(): void {
+    this.prevSlide();
+    this.restartInterval();
+  }
+
+  /**
+   * Pausa a transição automática do carrossel
+   * Usado quando o usuário passa o mouse sobre o carrossel
+   */
+  pauseSlider(): void {
     this.clearInterval();
   }
 
-  // Retoma a troca automática (quando o mouse sai do slider)
-  resumeSlider() {
+  /**
+   * Retoma a transição automática do carrossel
+   * Usado quando o usuário retira o mouse do carrossel
+   */
+  resumeSlider(): void {
     this.startInterval();
   }
 
-  // Para e começa o temporizador novamente
-  restartInterval() {
+  /**
+   * Inicia o intervalo para transição automática dos slides
+   */
+  startInterval(): void {
     this.clearInterval();
+    this.intervalId = setInterval(() => this.nextSlide(), this.slideInterval);
+  }
+
+  /**
+   * Reinicia o intervalo automático do carrossel
+   */
+  restartInterval(): void {
     this.startInterval();
   }
 
-  // ------------------------------------------------------
-  // Funções internas para controlar o temporizador
-  // ------------------------------------------------------
-
-  // Inicia a troca automática de imagens
-  private startInterval() {
-    // Para qualquer temporizador que já exista
-    this.clearInterval();
-    // Cria um novo temporizador que chama nextSlide a cada X segundos
-    this.intervalId = setInterval(() => {
-      this.nextSlide();
-    }, this.slideInterval);
-  }
-
-  // Para o temporizador atual
-  private clearInterval() {
-    if (this.intervalId !== null) {
+  /**
+   * Limpa o intervalo automático atual
+   * Previne múltiplos intervalos rodando simultaneamente
+   */
+  clearInterval(): void {
+    if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
+  }
+
+  /**
+   * Processa o envio do formulário de login
+   * @param event Evento opcional do formulário
+   */
+  onSubmit(event?: Event): void {
+    event?.preventDefault();
+    
+    // Evita múltiplos envios simultâneos
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+    
+    // Simula uma requisição de login (substituir por chamada real à API)
+    setTimeout(() => this.isLoading = false, 1500);
   }
 }

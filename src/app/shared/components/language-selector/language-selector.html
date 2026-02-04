@@ -1,0 +1,45 @@
+<div class="language">
+  <button 
+    class="language-btn" 
+    (click)="toggleDropdown($event)"
+    [class.active]="isOpen"
+    [attr.aria-expanded]="isOpen"
+    aria-label="Selecionar idioma"
+  >
+    <div class="flag-container">
+      <img 
+        class="flag-img" 
+        [src]="getCurrentLanguage().flag" 
+        [alt]="getCurrentLanguage().shortName"
+        (error)="onFlagError($event)"
+      />
+    </div>
+    <span class="language-name">{{ getCurrentLanguage().name }}</span>
+  </button>
+
+  <ul 
+    class="language-dropdown"
+    [class.open]="isOpen"
+    aria-label="Opções de idioma"
+    (click)="$event.stopPropagation()"
+  >
+    @for (lang of languages; track lang.code) {
+      <li 
+        [class.active]="currentLang === lang.code"
+        (click)="selectLanguage(lang.code, $event)"
+        tabindex="0"
+        role="menuitem"
+      >
+        <div class="flag-container">
+          <img 
+            class="flag-img" 
+            [src]="lang.flag" 
+            [alt]="lang.shortName"
+            (error)="onFlagError($event)"
+          />
+        </div>
+        {{ lang.name }}
+      </li>
+    }
+  </ul>
+</div>
