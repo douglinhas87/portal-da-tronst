@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 export interface Translation {
+  // Títulos principais
   headline1: string;
   headline2: string;
   description1: string;
   description2: string;
+  
+  // Formulário de login
   loginTitle: string;
   personalData: string;
   emailLabel: string;
@@ -15,6 +17,15 @@ export interface Translation {
   forgotPassword: string;
   loginButton: string;
   supportButton: string;
+  
+  // Recuperação de senha
+  recoveryTitle: string;
+  recoveryInstructions: string;
+  recoveryEmailLabel: string;
+  recoveryButton: string;
+  backToLogin: string;
+  recoverySuccess: string;
+  recoveryError: string;
 }
 
 type LanguageCode = 'pt' | 'en' | 'es' | 'it';
@@ -41,7 +52,14 @@ export class TranslationService {
       passwordLabel: 'Senha',
       forgotPassword: 'Esqueceu a senha? Clique aqui',
       loginButton: 'Login',
-      supportButton: 'Falar com o suporte'
+      supportButton: 'Falar com o suporte',
+      recoveryTitle: 'Recuperar Senha',
+      recoveryInstructions: 'Digite seu email cadastrado e enviaremos as instruções para redefinir sua senha.',
+      recoveryEmailLabel: 'Email cadastrado',
+      recoveryButton: 'Recuperar senha',
+      backToLogin: 'Voltar para o login',
+      recoverySuccess: 'Instruções enviadas com sucesso! Verifique seu e-mail.',
+      recoveryError: 'Por favor, insira um email válido.'
     },
     en: {
       headline1: 'A new era begins with',
@@ -54,22 +72,35 @@ export class TranslationService {
       passwordLabel: 'Password',
       forgotPassword: 'Forgot password? Click here',
       loginButton: 'Login',
-      supportButton: 'Contact support'
+      supportButton: 'Contact support',
+      recoveryTitle: 'Password Recovery',
+      recoveryInstructions: 'Enter your registered email and we will send instructions to reset your password.',
+      recoveryEmailLabel: 'Registered email',
+      recoveryButton: 'Recover Password',
+      backToLogin: 'Back to login',
+      recoverySuccess: 'Recovery instructions sent to your email. Check your inbox.',
+      recoveryError: 'Please enter a valid email address.'
     },
     es: {
       headline1: 'Una nueva era comienza con',
       headline2: '¡transformación!',
-      description1: 'Soluciones tecnológicas para o mercado',
-      description2: 'de higiene profissional.',
+      description1: 'Soluciones tecnológicas para el mercado',
+      description2: 'de higiene profesional.',
       loginTitle: 'Iniciar sesión',
       personalData: 'Datos personales',
       emailLabel: 'Correo electrónico',
       passwordLabel: 'Contraseña',
       forgotPassword: '¿Olvidó su contraseña? Haga clic aquí',
       loginButton: 'Iniciar sesión',
-      supportButton: 'Hablar com soporte'
+      supportButton: 'Hablar con soporte',
+      recoveryTitle: 'Recuperar Contraseña',
+      recoveryInstructions: 'Ingrese su correo electrónico registrado y le enviaremos instrucciones para restablecer su contraseña.',
+      recoveryEmailLabel: 'Correo electrónico registrado',
+      recoveryButton: 'Recuperar Contraseña',
+      backToLogin: 'Volver al inicio de sesión',
+      recoverySuccess: 'Instrucciones de recuperación enviadas a su correo electrónico. Revise su bandeja de entrada.',
+      recoveryError: 'Por favor, ingrese un correo electrónico válido.'
     },
-
     it: {
       headline1: 'Una nuova era inizia con la',
       headline2: 'trasformazione!',
@@ -81,7 +112,14 @@ export class TranslationService {
       passwordLabel: 'Password',
       forgotPassword: 'Password dimenticata? Clicca qui',
       loginButton: 'Accedi',
-      supportButton: 'Contatta il supporto'
+      supportButton: 'Contatta il supporto',
+      recoveryTitle: 'Recupera Password',
+      recoveryInstructions: 'Inserisci la tua email registrata e ti invieremo le istruzioni per reimpostare la password.',
+      recoveryEmailLabel: 'Email registrata',
+      recoveryButton: 'Recupera Password',
+      backToLogin: 'Torna all\'accesso',
+      recoverySuccess: 'Istruzioni di recupero inviate alla tua email. Controlla la tua casella di posta.',
+      recoveryError: 'Inserisci un\'indirizzo email valido.'
     }
   };
 
@@ -120,5 +158,10 @@ export class TranslationService {
 
   getCurrentLang(): LanguageCode {
     return this.currentLang.value;
+  }
+
+  getTranslation(key: keyof Translation): string {
+    const translations = this.translations.value;
+    return translations ? translations[key] : '';
   }
 }

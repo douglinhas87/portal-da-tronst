@@ -14,11 +14,12 @@ import { takeUntil } from 'rxjs/operators';
 
 import { LanguageSelectorComponent } from '../../shared/components/language-selector/language-selector';
 import { TranslationService, Translation } from '../../shared/services/translation';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, LanguageSelectorComponent],
+  imports: [CommonModule, FormsModule, LanguageSelectorComponent, RouterLink],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })

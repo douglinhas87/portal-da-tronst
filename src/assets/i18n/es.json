@@ -9,5 +9,12 @@
   "passwordLabel": "Contraseña",
   "forgotPassword": "¿Olvidó su contraseña? Haga clic aquí",
   "loginButton": "Iniciar sesión",
-  "supportButton": "Hablar con soporte"
+  "supportButton": "Hablar con soporte",
+  "recoveryTitle": "Recuperar Contraseña",
+  "recoveryInstructions": "Ingrese su correo electrónico registrado y le enviaremos instrucciones para restablecer su contraseña.",
+  "recoveryEmailLabel": "Correo electrónico registrado",
+  "recoveryButton": "Recuperar Contraseña",
+  "backToLogin": "Volver al inicio de sesión",
+  "recoverySuccess": "Instrucciones de recuperación enviadas a su correo electrónico. Revise su bandeja de entrada.",
+  "recoveryError": "Por favor, ingrese un correo electrónico válido."
 }

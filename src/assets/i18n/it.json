@@ -9,5 +9,12 @@
   "passwordLabel": "Password",
   "forgotPassword": "Password dimenticata? Clicca qui",
   "loginButton": "Accedi",
-  "supportButton": "Contatta il supporto"
+  "supportButton": "Contatta il supporto",
+  "recoveryTitle": "Recupera Password",
+  "recoveryInstructions": "Inserisci la tua email registrata e ti invieremo le istruzioni per reimpostare la password.",
+  "recoveryEmailLabel": "Email registrata",
+  "recoveryButton": "Recupera Password",
+  "backToLogin": "Torna all'accesso",
+  "recoverySuccess": "Istruzioni di recupero inviate alla tua email. Controlla la tua casella di posta.",
+  "recoveryError": "Inserisci un'indirizzo email valido."
 }
