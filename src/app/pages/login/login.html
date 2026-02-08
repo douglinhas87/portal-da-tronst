@@ -1,10 +1,8 @@
 <div class="login-wrapper">
   <div class="login-container">
 
-    <!-- Seção de boas-vindas e conteúdo informativo -->
     <div class="login-left">
 
-      <!-- Banner promocional com link para o site -->
       <a
         class="banner-link"
         href="https://www.tronst.com.br/"
@@ -22,140 +20,92 @@
         >
           <div class="slides" role="list">
 
-            <!-- Primeira imagem do carrossel -->
             <div class="slide" #slide role="listitem" [attr.aria-label]="translations?.headline1">
               <img src="assets/banners/Rectangle-2.png" [alt]="translations?.description1" />
             </div>
 
-            <!-- Segunda imagem do carrossel -->
             <div class="slide" #slide role="listitem" [attr.aria-label]="translations?.headline2">
               <img src="assets/banners/Unimax.png" alt="Solução Unimax para gestão empresarial" />
             </div>
 
-            <!-- Terceira imagem do carrossel -->
-            <div class="slide" #slide role="listitem" aria-label="Notícia 3 de 4">
+            <div class="slide" #slide role="listitem">
               <img src="assets/banners/Unilaundry.png" alt="Sistema Unilaundry para lavanderias" />
             </div>
 
-            <!-- Quarta imagem do carrossel -->
-            <div class="slide" #slide role="listitem" aria-label="Notícia 4 de 4">
+            <div class="slide" #slide role="listitem">
               <img src="assets/banners/Banner-Jet-Belt.png" alt="Conheça o Jet Belt" />
             </div>
           </div>
 
-          <!-- Botão para voltar a imagem anterior -->
-          <button
-            class="arrow prev"
-            (click)="prevSlideManual(); $event.preventDefault()"
-            [attr.aria-label]="'Ver imagem anterior'"
-          >
-            ‹
-          </button>
+          <button class="arrow prev" (click)="prevSlideManual(); $event.preventDefault()">‹</button>
+          <button class="arrow next" (click)="nextSlideManual(); $event.preventDefault()">›</button>
 
-          <!-- Botão para avançar para próxima imagem -->
-          <button
-            class="arrow next"
-            (click)="nextSlideManual(); $event.preventDefault()"
-            [attr.aria-label]="'Ver próxima imagem'"
-          >
-            ›
-          </button>
-
-          <!-- Instruções de acessibilidade para o carrossel -->
           <div id="slider-instructions" class="sr-only">
             {{ translations?.description1 }} {{ translations?.description2 }}
           </div>
         </div>
       </a>
 
-      <!-- Título principal da página -->
       <h1 class="headline">
         <span class="headline-bold">{{ translations?.headline1 }}</span><br />
         <span class="headline-bold">{{ translations?.headline2 }}</span>
       </h1>
 
-      <!-- Texto de descrição explicativa -->
       <div class="login-description">
         <span>{{ translations?.description1 }}</span>
         <span>{{ translations?.description2 }}</span>
       </div>
 
-      <!-- Seletor de idiomas -->
+    <div class="login-language"></div>
       <app-language-selector></app-language-selector>
     </div>
 
-    <!-- Formulário de login -->
     <div class="login-card">
-      <!-- Plano de fundo decorativo do card -->
       <div class="login-card-bg"></div>
 
-      <!-- Conteúdo principal do formulário -->
       <div class="login-card-content">
+        <div class="login-language">
+          <app-language-selector></app-language-selector>
+        </div>
+
         <h2>{{ translations?.loginTitle }}</h2>
-        <!-- Subtítulo do formulário -->
         <span class="dados-pessoais">{{ translations?.personalData }}</span>
 
-        <!-- Formulário de login -->
         <form (ngSubmit)="onSubmit($event)" #loginForm="ngForm">
-          <!-- Campo de email -->
           <label>{{ translations?.emailLabel }}</label>
-          <input 
-            type="email" 
-            [(ngModel)]="email" 
-            name="email" 
-            required 
-            aria-label="Email"
-          />
+          <input type="email" [(ngModel)]="email" name="email" required />
 
-          <!-- Campo de senha -->
           <label>{{ translations?.passwordLabel }}</label>
-          <input 
-            type="password" 
-            [(ngModel)]="password" 
-            name="password" 
-            required 
-            aria-label="Senha"
-          />
+          <input type="password" [(ngModel)]="password" name="password" required />
 
-          <!-- Link para recuperação de senha -->
           <a class="forgot" routerLink="/forgot-password">
             {{ translations?.forgotPassword }}
           </a>
 
-          <!-- Botão principal de login -->
           <button class="login-btn" type="submit" [disabled]="isLoading">
             @if (isLoading) {
-              <!-- Indicador de carregamento -->
               <span class="btn-spinner"></span>
             }
             <span>{{ translations?.loginButton }}</span>
           </button>
 
-          <!-- Botão para contato via WhatsApp -->
-          <a 
-            class="whatsapp-btn" 
+          <a
+            class="whatsapp-btn"
             target="_blank"
-            href="https://api.whatsapp.com/send/?phone=558192835554&text=Ol%C3%A1%2C+preciso+de+ajuda+no+sistema&type=phone_number&app_absent=0"
-            [attr.aria-label]="translations?.supportButton"
+            href="https://api.whatsapp.com/send/?phone=558192835554"
           >
-            <img 
-              src="assets/icons/whatsapp.png" 
-              alt="Ícone WhatsApp" 
-              class="whatsapp-icon"
-            />
+            <img src="assets/icons/whatsapp.png" />
             {{ translations?.supportButton }}
           </a>
         </form>
 
-        <!-- Logo da TRON -->
         <div class="logo">
-          <img 
-            src="assets/logos/logo-tron-azul-escuro.png" 
-            [alt]="translations?.headline1" 
-          />
+          <img src="assets/logos/logo-tron-azul-escuro.png" />
         </div>
+
       </div>
     </div>
 
   </div>
 </div>
+ 

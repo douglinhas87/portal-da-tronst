@@ -4,6 +4,13 @@ import { TranslationService } from '../../services/translation';
 
 type LanguageCode = 'pt' | 'en' | 'es' | 'it';
 
+interface Language {
+  code: LanguageCode;
+  name: string;
+  flag: string;
+  shortName: string;
+}
+
 @Component({
   selector: 'app-language-selector',
   standalone: true,
@@ -14,41 +21,21 @@ type LanguageCode = 'pt' | 'en' | 'es' | 'it';
 export class LanguageSelectorComponent implements OnInit {
   isOpen = false;
   currentLang: LanguageCode = 'pt';
-  
-  languages = [
-    { 
-      code: 'pt' as LanguageCode, 
-      name: 'Português - BR', 
-      flag: 'assets/icons/Brazil-flag.png',
-      shortName: 'PT'
-    },
-    { 
-      code: 'en' as LanguageCode, 
-      name: 'English - US', 
-      flag: 'assets/icons/USA-flag.png',
-      shortName: 'EN'
-    },
-    { 
-      code: 'es' as LanguageCode, 
-      name: 'Español - ES', 
-      flag: 'assets/icons/Spain-flag.png',
-      shortName: 'ES'
-    },
-    { 
-      code: 'it' as LanguageCode, 
-      name: 'Italiano - IT', 
-      flag: 'assets/icons/Italy-flag.png',
-      shortName: 'IT'
-    }
+
+  languages: Language[] = [
+    { code: 'pt', name: 'Português - BR', flag: 'assets/icons/Brazil-flag.png', shortName: 'PT' },
+    { code: 'en', name: 'English - US', flag: 'assets/icons/USA-flag.png', shortName: 'EN' },
+    { code: 'es', name: 'Español - ES', flag: 'assets/icons/Spain-flag.png', shortName: 'ES' },
+    { code: 'it', name: 'Italiano - IT', flag: 'assets/icons/Italy-flag.png', shortName: 'IT' }
   ];
 
   constructor(private translationService: TranslationService) {}
 
   ngOnInit(): void {
-    this.currentLang = this.translationService.getCurrentLang();
-    
+    this.currentLang = this.translationService.getCurrentLang() as LanguageCode;
+
     this.translationService.currentLang$.subscribe(lang => {
-      this.currentLang = lang;
+      this.currentLang = lang as LanguageCode;
       this.isOpen = false;
     });
   }
@@ -62,61 +49,30 @@ export class LanguageSelectorComponent implements OnInit {
   }
 
   toggleDropdown(event?: Event): void {
-    if (event) {
-      event.stopPropagation();
-    }
+    event?.stopPropagation();
     this.isOpen = !this.isOpen;
   }
 
-  selectLanguage(lang: LanguageCode, event?: Event): void {
-    if (event) {
-      event.stopPropagation();
-    }
-    
-    if (this.currentLang === lang) {
+  selectLanguage(lang: Language): void {
+    if (this.currentLang === lang.code) {
       this.isOpen = false;
       return;
     }
-    
-    this.translationService.setLanguage(lang);
+    this.translationService.setLanguage(lang.code);
     this.isOpen = false;
   }
 
   onFlagError(event: Event): void {
     const img = event.target as HTMLImageElement;
-    const parent = img.parentElement;
-    
-    if (parent && parent.classList.contains('flag-container')) {
-      img.style.display = 'none';
-      
-      const emojiSpan = document.createElement('span');
-      emojiSpan.className = 'flag-emoji';
-      
-      const emojiFlags = {
-        'pt': '🇧🇷',
-        'en': '🇺🇸',
-        'es': '🇪🇸',
-        'it': '🇮🇹'
-      };
-      
-      emojiSpan.textContent = emojiFlags[this.currentLang] || '🏴';
-      parent.appendChild(emojiSpan);
-    }
+    img.style.display = 'none';
   }
 
-  getCurrentLanguage(): any {
-    const lang = this.languages.find(l => l.code === this.currentLang) || this.languages[0];
-    
-    const fallbackFlags: Record<LanguageCode, string> = {
-      'pt': 'https://flagcdn.com/24x18/br.png',
-      'en': 'https://flagcdn.com/24x18/us.png',
-      'es': 'https://flagcdn.com/24x18/es.png',
-      'it': 'https://flagcdn.com/24x18/it.png'
-    };
-    
-    return {
-      ...lang,
-      flag: lang.flag || fallbackFlags[lang.code]
-    };
+  getCurrentLanguage(): Language {
+    return this.languages.find(l => l.code === this.currentLang) || this.languages[0];
+  }
+
+  getLanguageText(): string {
+    const lang = this.getCurrentLanguage();
+    return window.innerWidth <= 768 ? lang.shortName : lang.name;
   }
 }

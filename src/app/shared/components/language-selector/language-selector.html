@@ -14,7 +14,10 @@
         (error)="onFlagError($event)"
       />
     </div>
-    <span class="language-name">{{ getCurrentLanguage().name }}</span>
+
+    <span class="language-name">
+      {{ getLanguageText() }}
+    </span>
   </button>
 
   <ul 
@@ -23,23 +26,24 @@
     aria-label="Opções de idioma"
     (click)="$event.stopPropagation()"
   >
-    @for (lang of languages; track lang.code) {
-      <li 
-        [class.active]="currentLang === lang.code"
-        (click)="selectLanguage(lang.code, $event)"
-        tabindex="0"
-        role="menuitem"
-      >
-        <div class="flag-container">
-          <img 
-            class="flag-img" 
-            [src]="lang.flag" 
-            [alt]="lang.shortName"
-            (error)="onFlagError($event)"
-          />
-        </div>
+    <li 
+      *ngFor="let lang of languages" 
+      [class.active]="currentLang === lang.code"
+      (click)="selectLanguage(lang)"
+      tabindex="0"
+      role="menuitem"
+    >
+      <div class="flag-container">
+        <img 
+          class="flag-img" 
+          [src]="lang.flag" 
+          [alt]="lang.shortName"
+          (error)="onFlagError($event)"
+        />
+      </div>
+      <span class="language-name">
         {{ lang.name }}
-      </li>
-    }
+      </span>
+    </li>
   </ul>
 </div>
